@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.vb.dto.request.CreateClienteDTO;
+import org.vb.dto.request.UpdateClienteDTO;
 import org.vb.dto.response.ClienteResponseDTO;
 import org.vb.exception.EmailAlreadyExistsException;
 import org.vb.mapper.ClienteMapper;
@@ -20,8 +21,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ClienteServiceTest {
@@ -128,5 +130,46 @@ class ClienteServiceTest {
         assertTrue(exception.getMessage().contains(id.toString()));
         verify(clienteRepository).findById(id);
     }
+
+    @Test
+    void updateCliente_enviandoIdExistente_retornaClienteActualizado() {
+        UUID id = UUID.randomUUID();
+        Cliente cliente = TestDataFactory.createClienteEntityWithId(id);
+        UpdateClienteDTO clienteUpdateDTO = TestDataFactory.updateClienteDTO();
+
+        when(clienteRepository.findById(id)).thenReturn(Optional.of(cliente));
+        when(clienteRepository.save(any(Cliente.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        doAnswer(invocation -> {
+            UpdateClienteDTO dtoArg = invocation.getArgument(0);
+            Cliente clienteArg = invocation.getArgument(1);
+
+            if (dtoArg.getNombreCompleto() != null) {
+                clienteArg.setNombreCompleto(dtoArg.getNombreCompleto());
+            }
+            if (dtoArg.getEmail() != null) {
+                clienteArg.setEmail(dtoArg.getEmail());
+            }
+            return null;
+        }).when(clienteMapper).updateClienteFromDto(any(UpdateClienteDTO.class), any(Cliente.class));
+
+        ClienteResponseDTO responseDTO = TestDataFactory.createClienteResponseDTOWithId(id);
+        responseDTO.setNombreCompleto(clienteUpdateDTO.getNombreCompleto());
+        responseDTO.setEmail(clienteUpdateDTO.getEmail());
+
+        when(clienteMapper.toResponseDTO(any(Cliente.class))).thenReturn(responseDTO);
+
+        ClienteResponseDTO result = clienteService.updateCliente(id, clienteUpdateDTO);
+
+        assertNotNull(result);
+        assertEquals("Editado Nombre Test", result.getNombreCompleto());
+        assertEquals("testedited@mail.com", result.getEmail());
+
+        verify(clienteRepository).findById(id);
+        verify(clienteMapper).updateClienteFromDto(eq(clienteUpdateDTO), any(Cliente.class));
+        verify(clienteRepository).save(any(Cliente.class));
+        verify(clienteMapper).toResponseDTO(any(Cliente.class));
+    }
+
 
 }

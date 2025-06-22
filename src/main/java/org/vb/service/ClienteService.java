@@ -3,6 +3,7 @@ package org.vb.service;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.vb.dto.request.CreateClienteDTO;
+import org.vb.dto.request.UpdateClienteDTO;
 import org.vb.dto.response.ClienteResponseDTO;
 import org.vb.exception.EmailAlreadyExistsException;
 import org.vb.mapper.ClienteMapper;
@@ -42,6 +43,16 @@ public class ClienteService {
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No se encontró al cliente con ID: " + id));
         return clienteMapper.toResponseDTO(cliente);
+    }
+
+    public ClienteResponseDTO updateCliente(UUID id, UpdateClienteDTO clienteToUpdate) {
+        Cliente existingCliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No se encontró al cliente con ID: " + id));
+
+        clienteMapper.updateClienteFromDto(clienteToUpdate, existingCliente);
+
+        Cliente clienteGuardado = clienteRepository.save(existingCliente);
+        return clienteMapper.toResponseDTO(clienteGuardado);
     }
 
 }

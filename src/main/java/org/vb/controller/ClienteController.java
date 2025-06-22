@@ -1,5 +1,6 @@
 package org.vb.controller;
 
+import com.github.fge.jsonpatch.JsonPatchException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -8,9 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.vb.dto.request.CreateClienteDTO;
+import org.vb.dto.request.UpdateClienteDTO;
 import org.vb.dto.response.ClienteResponseDTO;
 import org.vb.service.ClienteService;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -56,5 +59,14 @@ public class ClienteController {
         return ResponseEntity.ok(cliente);
     }
 
-
+    @Operation(summary = "Actualizar datos de un cliente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cliente actualizado correctamente"),
+            @ApiResponse(responseCode = "404", description = "Cliente no encontrado")
+    })
+    @PatchMapping("/{id}")
+    public ResponseEntity<ClienteResponseDTO> updateCliente(@PathVariable UUID id, @RequestBody UpdateClienteDTO clienteDetails) throws JsonPatchException, IOException {
+        ClienteResponseDTO updatedCliente = clienteService.updateCliente(id, clienteDetails);
+        return ResponseEntity.ok(updatedCliente);
+    }
 }

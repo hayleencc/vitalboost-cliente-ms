@@ -1,6 +1,7 @@
 package org.vb.service.utils;
 
 import org.vb.dto.request.CreateClienteDTO;
+import org.vb.dto.request.UpdateClienteDTO;
 import org.vb.dto.response.ClienteResponseDTO;
 import org.vb.model.entity.Cliente;
 
@@ -38,6 +39,13 @@ public class TestDataFactory {
         dto.setId(id);
         dto.setNombreCompleto("Nombre Test");
         dto.setEmail("test@mail.com");
+        return dto;
+    }
+
+    public static UpdateClienteDTO updateClienteDTO(){
+        UpdateClienteDTO dto = new UpdateClienteDTO();
+        dto.setNombreCompleto("Editado Nombre Test");
+        dto.setEmail("testedited@mail.com");
         return dto;
     }
 
