@@ -13,6 +13,8 @@ import org.vb.model.entity.Cliente;
 import org.vb.repository.ClienteRepository;
 import org.vb.service.utils.TestDataFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -65,4 +67,34 @@ class ClienteServiceTest {
             clienteService.createCliente(dto);
         });
     }
+
+    @Test
+    void getClientes_siNoExistenCreados_retornaListaVacia() {
+        List<Cliente> clientes = new ArrayList<>();
+        when(clienteRepository.findAll()).thenReturn(clientes);
+
+        List<ClienteResponseDTO> result = clienteService.getClientes();
+
+        assertEquals(0, result.size());
+        verify(clienteRepository).findAll();
+    }
+
+    @Test
+    void getClientes_siExistenCreados_retornarListaExitosamente() {
+        Cliente cliente = TestDataFactory.createCliente();
+        CreateClienteDTO dto = TestDataFactory.createClienteDTO();
+        ClienteResponseDTO response = TestDataFactory.reponseClienteDTO();
+
+        List<Cliente> clientes = List.of(cliente);
+
+        when(clienteRepository.findAll()).thenReturn(clientes);
+
+        List<ClienteResponseDTO> result = clienteService.getClientes();
+
+        assertEquals(1, result.size());
+        verify(clienteRepository).findAll();
+    }
+
+
+
 }

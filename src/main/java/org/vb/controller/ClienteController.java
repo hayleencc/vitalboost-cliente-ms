@@ -6,13 +6,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.vb.dto.request.CreateClienteDTO;
 import org.vb.dto.response.ClienteResponseDTO;
 import org.vb.service.ClienteService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/clientes")
@@ -33,4 +32,16 @@ public class ClienteController {
         ClienteResponseDTO nuevoCliente = clienteService.createCliente(cliente);
         return new ResponseEntity<>(nuevoCliente, HttpStatus.CREATED);
     }
+
+
+    @Operation(summary = "Listar clientes registrados")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Clientes obtenidos correctamente")
+    })
+    @GetMapping
+    public List<ClienteResponseDTO> getAllClientes(
+    ) {
+        return clienteService.getClientes();
+    }
+
 }
