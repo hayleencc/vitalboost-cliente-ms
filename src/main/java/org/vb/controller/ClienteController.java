@@ -12,6 +12,7 @@ import org.vb.dto.response.ClienteResponseDTO;
 import org.vb.service.ClienteService;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/clientes")
@@ -43,5 +44,17 @@ public class ClienteController {
     ) {
         return clienteService.getClientes();
     }
+
+    @Operation(summary = "Listar datos de un cliente por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cliente obtenido correctamente"),
+            @ApiResponse(responseCode = "404", description = "Cliente no encontrado")
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<ClienteResponseDTO> getCoachById(@PathVariable UUID id) {
+        ClienteResponseDTO cliente = clienteService.getClienteById(id);
+        return ResponseEntity.ok(cliente);
+    }
+
 
 }

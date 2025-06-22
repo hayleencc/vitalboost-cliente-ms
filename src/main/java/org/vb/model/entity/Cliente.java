@@ -26,6 +26,14 @@ public class Cliente {
     @Column(name = "fecha_registro", nullable = false, updatable = false)
     private Instant fechaRegistro;
 
+    public Cliente(){}
+
+    public Cliente(UUID id, String nombreCompleto, String email){
+        this.id = id;
+        this.nombreCompleto = nombreCompleto;
+        this.email = email;
+    }
+
     public UUID getId() {
         return id;
     }

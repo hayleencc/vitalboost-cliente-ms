@@ -1,5 +1,6 @@
 package org.vb.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.vb.dto.request.CreateClienteDTO;
 import org.vb.dto.response.ClienteResponseDTO;
@@ -9,6 +10,7 @@ import org.vb.model.entity.Cliente;
 import org.vb.repository.ClienteRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ClienteService {
@@ -34,6 +36,12 @@ public class ClienteService {
         return clientes.stream()
                 .map(clienteMapper::toResponseDTO)
                 .toList();
+    }
+
+    public ClienteResponseDTO getClienteById(UUID id) {
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No se encontró al cliente con ID: " + id));
+        return clienteMapper.toResponseDTO(cliente);
     }
 
 }
