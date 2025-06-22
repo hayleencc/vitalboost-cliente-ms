@@ -11,6 +11,9 @@ public class ClienteResponseDTO {
         return id;
     }
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public String getNombreCompleto() {
         return nombreCompleto;
