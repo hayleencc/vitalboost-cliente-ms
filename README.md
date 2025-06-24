@@ -32,8 +32,8 @@ Este proyecto implementa un microservicio REST para crear, consultar y actualiza
    ```mvn spring-boot:run```
 
 
-4. La aplicación arrancará en `http://localhost:8080`
-5. Para probar los endpoints existentes puedes acceder a ```http://localhost:8080/swagger-ui/index.html```
+4. La aplicación arrancará en `http://localhost:8081`
+5. Para probar los endpoints existentes puedes acceder a ```http://localhost:8081/swagger-ui/index.html```
 
 ## Testing
 Se puede usar el comando ```mvn test```
@@ -41,6 +41,7 @@ Se puede usar el comando ```mvn test```
 
 ## Estructura del proyecto 
 Accede a la carpeta `src` y dentro encontraras la carpeta `main`. Luego accedes a `java/org/vb` teniendo como carpetas principales:
+- `controller/`: Archivos de configuración de la aplicación
 - `controller/`: Controladores REST
 - `service/`: Lógica de negocio
 - `repository/`: Acceso a datos
