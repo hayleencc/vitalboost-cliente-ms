@@ -54,7 +54,7 @@ public class ClienteController {
             @ApiResponse(responseCode = "404", description = "Cliente no encontrado")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<ClienteResponseDTO> getCoachById(@PathVariable UUID id) {
+    public ResponseEntity<ClienteResponseDTO> getClienteById(@PathVariable String id) {
         ClienteResponseDTO cliente = clienteService.getClienteById(id);
         return ResponseEntity.ok(cliente);
     }
@@ -65,7 +65,7 @@ public class ClienteController {
             @ApiResponse(responseCode = "404", description = "Cliente no encontrado")
     })
     @PatchMapping("/{id}")
-    public ResponseEntity<ClienteResponseDTO> updateCliente(@PathVariable UUID id, @RequestBody UpdateClienteDTO clienteDetails) throws JsonPatchException, IOException {
+    public ResponseEntity<ClienteResponseDTO> updateCliente(@PathVariable String id, @RequestBody UpdateClienteDTO clienteDetails) throws JsonPatchException, IOException {
         ClienteResponseDTO updatedCliente = clienteService.updateCliente(id, clienteDetails);
         return ResponseEntity.ok(updatedCliente);
     }

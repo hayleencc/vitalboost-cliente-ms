@@ -1,33 +1,29 @@
 package org.vb.dto.response;
 
-import java.util.UUID;
-
 public class ClienteResponseDTO {
-    private UUID id;
+    private String id;
+    private String rol;
+
     private String nombreCompleto;
     private String email;
 
-    public UUID getId() {
-        return id;
-    }
+    public String getId() { return id;  }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
+    public void setId(String id) {  this.id = id;   }
 
     public String getNombreCompleto() {
         return nombreCompleto;
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     public void setNombreCompleto(String nombreCompleto) {
         this.nombreCompleto = nombreCompleto;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public String getEmail() {  return email;   }
+
+    public void setEmail(String email) {    this.email = email;    }
+
+    public String getRol() {    return rol;    }
+
+    public void setRol(String rol) {    this.rol = rol;     }
 }

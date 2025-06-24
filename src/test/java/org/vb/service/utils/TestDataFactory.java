@@ -8,35 +8,44 @@ import org.vb.model.entity.Cliente;
 import java.util.UUID;
 
 public class TestDataFactory {
+    public static final String CLIENTE_ID = "XyZ123abcDEF456ghiJKL789mnoPQR012stuVWX";
+    public static final String ROL = "cliente";
+
     public static CreateClienteDTO createClienteDTO(){
         CreateClienteDTO dto = new CreateClienteDTO();
+        dto.setId(CLIENTE_ID);
+        dto.setRol(ROL);
         dto.setNombreCompleto("Nombre Test");
         dto.setEmail("test@mail.com");
         return dto;
     }
 
     public static Cliente createCliente(){
-        Cliente dto = new Cliente();
-        dto.setNombreCompleto("Nombre Test");
-        dto.setEmail("test@mail.com");
-
-        return dto;
+        Cliente cliente = new Cliente();
+        cliente.setId(CLIENTE_ID);
+        cliente.setRol(ROL);
+        cliente.setNombreCompleto("Nombre Test");
+        cliente.setEmail("test@mail.com");
+        return cliente;
     }
 
     public static ClienteResponseDTO responseClienteDTO(){
         ClienteResponseDTO dto = new ClienteResponseDTO();
+        dto.setId(CLIENTE_ID);
+        dto.setRol(ROL);
         dto.setNombreCompleto("Nombre Test");
         dto.setEmail("test@mail.com");
         return dto;
     }
 
-    public static Cliente createClienteEntityWithId(UUID id) {
-        return new Cliente(id, "Nombre Test", "test@mail.com");
+    public static Cliente createClienteEntityWithId(String id) {
+        return new Cliente(CLIENTE_ID, "Nombre Test", "test@mail.com", ROL);
     }
 
-    public static ClienteResponseDTO createClienteResponseDTOWithId(UUID id) {
+    public static ClienteResponseDTO createClienteResponseDTOWithId(String id) {
         ClienteResponseDTO dto = new ClienteResponseDTO();
-        dto.setId(id);
+        dto.setId(CLIENTE_ID);
+        dto.setRol(ROL);
         dto.setNombreCompleto("Nombre Test");
         dto.setEmail("test@mail.com");
         return dto;

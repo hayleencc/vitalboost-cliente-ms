@@ -11,7 +11,6 @@ import org.vb.model.entity.Cliente;
 import org.vb.repository.ClienteRepository;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class ClienteService {
@@ -27,7 +26,16 @@ public class ClienteService {
         if (clienteRepository.findByEmail(cliente.getEmail()).isPresent()) {
             throw new EmailAlreadyExistsException("Ya existe un cliente con el email: " + cliente.getEmail());
         }
+
         Cliente nuevoCliente = clienteMapper.toEntity(cliente);
+
+        if (nuevoCliente.getId() == null) {
+            throw new IllegalArgumentException("El ID del cliente no puede ser nulo");
+        }
+        if (clienteRepository.existsById(cliente.getId())) {
+            throw new IllegalArgumentException("El ID del cliente ya existe en el sistema");
+        }
+
         Cliente clienteGuardado = clienteRepository.save(nuevoCliente);
         return clienteMapper.toResponseDTO(clienteGuardado);
     }
@@ -39,13 +47,13 @@ public class ClienteService {
                 .toList();
     }
 
-    public ClienteResponseDTO getClienteById(UUID id) {
+    public ClienteResponseDTO getClienteById(String id) {
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No se encontró al cliente con ID: " + id));
         return clienteMapper.toResponseDTO(cliente);
     }
 
-    public ClienteResponseDTO updateCliente(UUID id, UpdateClienteDTO clienteToUpdate) {
+    public ClienteResponseDTO updateCliente(String id, UpdateClienteDTO clienteToUpdate) {
         Cliente existingCliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No se encontró al cliente con ID: " + id));
 

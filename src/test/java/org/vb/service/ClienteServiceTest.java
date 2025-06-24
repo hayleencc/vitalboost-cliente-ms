@@ -100,7 +100,7 @@ class ClienteServiceTest {
 
     @Test
     void getClienteById_enviandoIdExistente_retornaCliente() {
-        UUID id = UUID.randomUUID();
+        String id = TestDataFactory.CLIENTE_ID;
         Cliente cliente = TestDataFactory.createClienteEntityWithId(id);
         ClienteResponseDTO responseDTO = TestDataFactory.createClienteResponseDTOWithId(id);
 
@@ -119,7 +119,7 @@ class ClienteServiceTest {
 
     @Test
     void getClienteById_nonExistingId_shouldThrowException() {
-        UUID id = UUID.randomUUID();
+        String id = TestDataFactory.CLIENTE_ID;
 
         when(clienteRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -127,13 +127,13 @@ class ClienteServiceTest {
             clienteService.getClienteById(id);
         });
 
-        assertTrue(exception.getMessage().contains(id.toString()));
+        assertTrue(exception.getMessage().contains(id));
         verify(clienteRepository).findById(id);
     }
 
     @Test
     void updateCliente_enviandoIdExistente_retornaClienteActualizado() {
-        UUID id = UUID.randomUUID();
+        String id = TestDataFactory.CLIENTE_ID;
         Cliente cliente = TestDataFactory.createClienteEntityWithId(id);
         UpdateClienteDTO clienteUpdateDTO = TestDataFactory.updateClienteDTO();
 
