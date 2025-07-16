@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/clientes")
+@RequestMapping(value = {"/clientes", "/clientes/"})
 public class ClienteController {
     private final ClienteService clienteService;
 
