@@ -41,7 +41,7 @@ Se puede usar el comando ```mvn test```
 
 ## Estructura del proyecto 
 Accede a la carpeta `src` y dentro encontraras la carpeta `main`. Luego accedes a `java/org/vb` teniendo como carpetas principales:
-- `controller/`: Archivos de configuración de la aplicación
+- `config/`: Archivos de configuración de la aplicación
 - `controller/`: Controladores REST
 - `service/`: Lógica de negocio
 - `repository/`: Acceso a datos
